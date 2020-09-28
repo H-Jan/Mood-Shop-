@@ -34,8 +34,8 @@
 
     <script>
         const cart = []
-
-
+        // -----------------------------------------
+        // ADD ITEMS
         function addItems(name, price) {
             for (let i = 0; i < cart.length; i += 1) {
                 if (cart[i].name === name) {
@@ -49,7 +49,7 @@
             cart.push(item)
 
         }
-
+        // -------------------------------------------
         // SHOW ITEMS 
         function showItems() {
 
@@ -68,7 +68,7 @@
         function gettingQty() {
             //Did not know how to demonstrate quantity on own
             let qty = 0
-            for (let i = 0; i < cart.length; i +=1) {
+            for (let i = 0; i < cart.length; i += 1) {
                 qty += cart[i].qty
             }
             return qty
@@ -77,11 +77,12 @@
         // Quantity is only visible in the above function block
         // the return qty allows the function to run above by calling the function
 
+        //----------------------------------
         // gettingTotal 
         function gettingTotal() {
             let totalPrice = 0
             for (let i = 0; i < cart.length; i += 1) {
-                totalPrice += cart[i].price * cart[i].qty 
+                totalPrice += cart[i].price * cart[i].qty
                 // As it is going down the cart.length, it will add the price times the quantity to the total price
                 //until it reaches the bottom
             }
@@ -91,7 +92,27 @@
             // toFixed returns a string, so should be last step as a 'display' for math
 
         }
+        //-------------------------------------
+        // REMOVE ITEM 
+        function removeItems(name, qty = 0) {
+            for (let i = 0; i < cart.length; i += 1) {
+                if (cart[i].name === name) {
+                    if (qty > 0) {
+                        cart[i].qty -= qty
+                    }
+                    
+                    if (cart[i].qty < 1 || qty === 0) {
+                        cart.splice(i, 1)
+                    }
+                   
+                    return
+                }
+            }
 
+
+        }
+
+        //---------------------------------
         addItems('Anger', 1.29)
         addItems('Orange', 1.29)
         addItems('Orange', 1.29)
@@ -100,6 +121,12 @@
         addItems('Orange', 1.29)
 
         showItems()
+
+        removeItems('Freebees')
+        removeItems('Orange', 2)
+
+        showItems()
+
     </script>
 
 </body>
