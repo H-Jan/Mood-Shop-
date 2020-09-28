@@ -30,24 +30,73 @@
     </footer>
 
     <script src="resources/js/data.js" type="module"></script>
-    <script src="resources/js/script.js" type="module">
-    </script>
+    <script src="resources/js/script.js" type="module"></script>
 
     <script>
         const cart = []
 
+
         function addItems(name, price) {
-            const item = { name: name, price: price, qty: 1 }
+            for (let i = 0; i < cart.length; i += 1) {
+                if (cart[i].name === name) {
+                    cart[i].qty += 1
+                    // So this for loop needs to keep running, but needs to stop for below function
+                    return
+                    //return ends the for loop and function itself, stopping the below code for const.push(item)
+                }
+            }
+            const item = { name, price, qty: 1 }
             cart.push(item)
 
         }
 
-
+        // SHOW ITEMS 
         function showItems() {
-            console.log(`You have ${cart.length} items in your cart`)
+
+            const qty = gettingQty()
+            console.log(`You have ${gettingQty()} items in your cart`)
+
+            for (let i = 0; i < cart.length; i += 1) {
+                console.log(`${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
+
+            }
+
+            console.log(`Total in cart: $${gettingTotal()}`)
 
         }
 
+        function gettingQty() {
+            //Did not know how to demonstrate quantity on own
+            let qty = 0
+            for (let i = 0; i < cart.length; i +=1) {
+                qty += cart[i].qty
+            }
+            return qty
+        }
+        // scope is a term to define where a value is visible.
+        // Quantity is only visible in the above function block
+        // the return qty allows the function to run above by calling the function
+
+        // gettingTotal 
+        function gettingTotal() {
+            let totalPrice = 0
+            for (let i = 0; i < cart.length; i += 1) {
+                totalPrice += cart[i].price * cart[i].qty 
+                // As it is going down the cart.length, it will add the price times the quantity to the total price
+                //until it reaches the bottom
+            }
+
+            return totalPrice.toFixed(3)
+            // toFixed rounds off the number of decimal places 
+            // toFixed returns a string, so should be last step as a 'display' for math
+
+        }
+
+        addItems('Anger', 1.29)
+        addItems('Orange', 1.29)
+        addItems('Orange', 1.29)
+        addItems('Opinion', 0.02)
+        addItems('Freebees', 9.81)
         addItems('Orange', 1.29)
 
         showItems()
