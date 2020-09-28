@@ -5,10 +5,11 @@
     <title>Mood-Shop-2</title>
     <link rel="stylesheet" href="resources/css/styles.css">
 </head>
+
 <body>
 
-<header class='page-header'>
-    <h1>The Mood Shop</h1>
+    <header class='page-header'>
+        <h1>The Mood Shop</h1>
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
@@ -17,15 +18,41 @@
             </ul>
         </nav>
     </header>
-    
+
     <main class='items' id='items'>
         <!--
           Display moods here
          -->
     </main>
 
-    <script src="resources/js/data.js" type="module"></script>
-    <script src="resources/js/script.js" type="module"></script>
-</body>
-</html>
+    <footer>
 
+    </footer>
+
+    <script src="resources/js/data.js" type="module"></script>
+    <script src="resources/js/script.js" type="module">
+    </script>
+
+    <script>
+        const cart = []
+
+        function addItems(name, price) {
+            const item = { name: name, price: price, qty: 1 }
+            cart.push(item)
+
+        }
+
+
+        function showItems() {
+            console.log(`You have ${cart.length} items in your cart`)
+
+        }
+
+        addItems('Orange', 1.29)
+
+        showItems()
+    </script>
+
+</body>
+
+</html>
