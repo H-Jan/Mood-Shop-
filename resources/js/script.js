@@ -58,12 +58,47 @@ console.log(cartTotal)
 itemList.innerHTML = '<li> Hello World </li>'
 
 const cart = []
+//-----------------------------------
+// HANDLE CHANGE EVENTS ON UPDATE INPUT    
+itemList.onchange = function(e) {
+    if (e.target && e.target.classList.contains('update')) {
+        const name = e.target.dataset.name 
+        const qty = parseInt(e.target.value)
+        updateCart(name, qty)
+
+    }
+
+}
+
+//---------------------------
+// HANDLE CLICKS ON LIST
+
+itemList.onclick = function(e) {
+   // console.log("Clicked List!")
+   // console.log(e.target)
+    if (e.target && e.target.classList.contains('remove')) {
+        const name = e.target.dataset.name
+        removeItems(name)
+    }
+    else if (e.target && e.target.classList.contains('add-one')) {
+        const name = e.target.dataset.name
+        addItems(name)
+    }
+    else if (e.target && e.target.classList.contains('remove-one')) {
+        const name = e.target.dataset.name
+        removeItems(name, 1)
+    }
+
+}
+
+
 // -----------------------------------------
 // ADD ITEMS
 function addItems(name, price) {
     for (let i = 0; i < cart.length; i += 1) {
         if (cart[i].name === name) {
             cart[i].qty += 1
+            showItems()
             // So this for loop needs to keep running, but needs to stop for below function
             return
             //return ends the for loop and function itself, stopping the below code for const.push(item)
@@ -87,8 +122,15 @@ function showItems() {
         // { name: 'Apple', price: 0.99, qty: 3}
         const { name, price, qty } = cart[i]
 
-        itemStr += `<li> ${name} $${price} x ${qty} = ${qty * price} </li>`
-
+        itemStr += `<li> 
+        ${name} $${price} x ${qty} = ${qty * price} 
+        <button class="remove" data-name="${name}">Remove</button>
+        <button class="add-one" data-name="${name}"> + </button>
+        <button class="remove-one" data-name="${name}"> - </button>
+        <input class="update" type="number" data-name="${name}"> 
+        </li>`
+        // Developer attribute is data- this is how we are ID'ing our remove button, in this case by name
+        // These are the attributes/buttons that appear for showing besides the items listed, listed under onclick so they are user interactive
     }
     itemList.innerHTML = itemStr
 
@@ -128,7 +170,7 @@ function gettingTotal() {
         //until it reaches the bottom
     }
 
-    return totalPrice.toFixed(3)
+    return totalPrice.toFixed(2)
     // toFixed rounds off the number of decimal places 
     // toFixed returns a string, so should be last step as a 'display' for math
 
@@ -145,7 +187,7 @@ function removeItems(name, qty = 0) {
             if (cart[i].qty < 1 || qty === 0) {
                 cart.splice(i, 1)
             }
-
+            showItems()
             return
         }
     }
@@ -153,3 +195,17 @@ function removeItems(name, qty = 0) {
 
 }
 
+//----------------------
+//----------------------
+function updateCart(name, qty) {
+    for (let i = 0; i < cart.length; i += 1) {
+        if (cart[i].name === name) {
+            if (qty < 1) {
+                removeItems(name)
+            }
+            cart[i].qty = qty
+            showItems()
+            return
+        }
+    }
+}
